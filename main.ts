@@ -379,7 +379,7 @@ logMessage("디버깅 모드 활성화", LogLevel.Debug);
 // processUnknown: 매개변수로 unknown 타입을 받습니다. 입력값이 문자열이면 대문자로 변환하여 반환하고, 숫자라면 10을 곱해 반환합니다. 다른타입의 경우 에러를 발생시킵니다.
 
 function processAny(input: any): string {
-  return input;
+  return input.toString();
 }
 
 function processUnknown(input: unknown): string | number {
