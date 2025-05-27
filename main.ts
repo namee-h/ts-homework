@@ -1,156 +1,402 @@
-// string
-// number
-// boolean
-// null
-// undefined
-// ------------
-// symbol 절대 변경불가능한값
-// bigint 큰 숫자
-// 타입 선언할때 소문자로 시작해야됨. 대문자로 시작하면 객체임
+// interface, type
 
-// 변수에서 사용하는 방법
-// let a: boolean = true;
-// a = false;
-
-// let b: null = null; //값이 없기 때문에 없는 거야
-// let c: undefined = undefined; //값이 정의가되지 않아서 없는 거야
-
-// // 함수에서 사용하는 방법
-
-// function double(n: number): number {
-//   return n * 2;
+// interface IStudent { //객체만 가능함
+//   name: string;
+//   age?: number;
+//   isStudent: boolean;
 // }
 
-// console.log(double(3));
+// type TStudent = { //원시타입도 가능, 튜플타입도 가능함
+//   name: string;
+//   age?: number;
+// };
 
-// ⭐️ 문제 1. 다음 변수들의 타입을 지정해주세요
-let userName: string = "name";
-let userAge: number = 15;
-let isAdmin: boolean = false;
+// let d: IStudent = { name: "asd", age: 12, isStudent: true };
+// let e: TStudent = { name: "asd", age: 15 };
 
-userName = "Alice";
-userAge = 25;
-isAdmin = true;
+// interface IPerson {
+//   name: string;
+//   age: number;
+//   gender: string;
+// }
+// interface IForeigner extends IPerson {
+//   //interface를 사용하면 IPerson 에서 확장가능
+//   //   name: string;
+//   //   age: number;
+//   //   gender: string;
+//   nationality: string;
+// }
+// // type 에서 확장하는 방법
+// type TForeigner = IPerson & { nationality: string; period: Date };
 
-console.log(userName, userAge, isAdmin);
+// let american: IForeigner = {
+//   nationality: "american",
+//   name: "jacob",
+//   age: 23,
+//   gender: "F",
+// };
 
-// ⭐️ 문제 2. 아래 변수들에 적절한 타입과 초기값을 지정하세요
-let productName: string = "탐사수";
-let productPrice: number = 1000;
-let isAvailable: boolean = true;
+// ------------ 🔥 문제은행 3강 🔥 ------------------- //
 
-console.log(
-  `상품명:${productName}, 가격:${productPrice}, 재고여부:${isAvailable}`
+// ⭐️ 문제 1. 사용자 정보를 나타내는 인터페이스와 타입을 작성하세요. 사용자 정보는 다음과 같은 구조를 가집니다.
+// id: 고유 ID(숫자) | name: 이름(문자열) | email:(문자열, 선택 속성)
+
+// 인터페이스 작성
+interface IUser {
+  id: number;
+  name: string;
+  email?: string;
+}
+// 타입 작성
+type TUser = {
+  id: number;
+  name: string;
+  email?: string;
+};
+
+const user: IUser = {
+  id: 1,
+  name: "Alice",
+};
+
+const userWithEmail: TUser = {
+  id: 2,
+  name: "Bob",
+  email: "bob@example.com",
+};
+
+// ⭐️ 문제 2. 아래와 같은 구조를 나타내는 타입을 정의하고, 해당 타입을 기반으로 객체를 작성하세요
+// 사용자(User)는 다음 속성을 가집니다 id: 숫자 | name: 문자열 | address: 객체 ({city:문자열, zipCode:숫자})
+
+// User 타입을 작성하세요.
+type TUser2 = {
+  id: number;
+  name: string;
+  address: { city: string; zipCode: number };
+};
+
+// User 타입을 사용하여 아래 객체를 작성하세요.
+const user2: TUser2 = {
+  id: 1,
+  name: "Alice",
+  address: {
+    city: "Seoul",
+    zipCode: 12345,
+  },
+};
+
+// ⭐️ 문제 3. 아래 조건에 따라 인터페이스를 확장하세요.
+// 1. 기본적으로 사용자 정보를 나타내는 User 인터페이스를 만드세요 {id,name,email?}
+// 2. 관리자 정보를 나타내는 Admin 인터페이스를 만들되, User 인터페이스를 확장하세요. 관리자는 추가적으로 role 속성을 가집니다. 작성한 뒤 사용자와 관리자를 나타내는 객체를 만드세요.
+// User 인터페이스 작성
+interface INormalUser {
+  id: number;
+  name: string;
+  email?: string;
+}
+// Admin 인터페이스 작성 (User 확장)
+interface IAdminUser extends INormalUser {
+  role: string;
+}
+
+const normalUser: INormalUser = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com",
+};
+
+const adminUser: IAdminUser = {
+  id: 2,
+  name: "Bob",
+  role: "Administrator",
+};
+
+// ⭐️ 문제 4. 아래 조건에 따라 type을 확장하세요.
+// 1. 기본적으로 상품 정보를 나타내는 Product 타입을 만드세요 (id, name, price)
+// 2. 할인 정보를 나타내는 DiscountedProduct 타입을 만드세요. Product를 확장하되, 추가적으로 discount 속성을 가집니다.(discount:숫자,퍼센트값)
+
+// Product 타입 작성
+type TProduct = {
+  id: number;
+  name: string;
+  price: number;
+};
+
+// DiscountedProduct 타입 작성 (Product 확장)
+type TDiscount = TProduct & { discount: number };
+
+const normalProduct: TProduct = {
+  id: 1,
+  name: "Laptop",
+  price: 1000,
+};
+
+const discountedProduct: TDiscount = {
+  id: 2,
+  name: "Smartphone",
+  price: 800,
+  discount: 10,
+};
+
+// ⭐️ 문제 5. 아래 조건을 만족하는 인터페이스를 작성하고, 해당 타입을 기반으로 객체를 작성하세요.
+// 1. 상품(Product)은 다음 속성을 가집니다. id:숫자 | name:문자열 | price:숫자
+// 2. 주문(Order)은 다음 속성을 가집니다. orderId:숫자 | products: Product 타입 배열 | totalPrice: 숫자
+// Product 타입 작성
+type TProduct2 = {
+  id: number;
+  name: string;
+  price: number;
+};
+
+// Order 타입 작성
+type TOrder = {
+  orderId: number;
+  products: TProduct2[];
+  totalPrice: number;
+};
+
+// Order 타입을 사용하여 아래 객체를 작성하세요.
+const order: TOrder = {
+  orderId: 101,
+  products: [
+    { id: 1, name: "Laptop", price: 1000 },
+    { id: 2, name: "Mouse", price: 50 },
+  ],
+  totalPrice: 1050,
+};
+
+// ⭐️ 문제 6. 아래 조건을 만족하는 타입과 인터페이스를 작성하고, 해당 타입을 기반으로 객체를 작성하세요
+// 1. BaseUser라는 인터페이스를 작성하세요 id:숫자 | name:문자열
+// 2. AdminUser라는 타입을 작성하세요 BaseUser 확장 role:문자열
+// 3. GuestUser라는 타입을 작성하세요 BaseUser 확장 visitCount: 숫자
+
+// BaseUser 인터페이스 작성
+interface BaseUser {
+  id: number;
+  name: string;
+}
+
+// AdminUser 타입 작성
+type AdminUser = BaseUser & { role: string };
+
+// GuestUser 타입 작성
+type GuestUser = BaseUser & { visitCount: number };
+
+// 아래 객체를 작성하세요.
+const admin: AdminUser = {
+  id: 1,
+  name: "Alice",
+  role: "Administrator",
+};
+
+const guest: GuestUser = {
+  id: 2,
+  name: "Bob",
+  visitCount: 5,
+};
+
+// // Female Male
+// const enum Gender {
+//   FEMALE = "Female",
+//   MALE = "Male",
+// }
+// let gender: Gender = Gender.FEMALE;
+
+// const enum SearchType {
+//   Date = "Date", //0
+//   KEYWORD = "Keyword", //1
+//   ORDER = "Order", //2
+// }
+// console.log("hey", SearchType.KEYWORD);
+
+// // void return type이 없음
+// function double(a, b) {
+//   console.log(a, b);
+// }
+// interface NewType {
+//   name: string;
+//   age: number;
+//   double: (a: number, b: number) => void; // 함수 타입 지정할때는 void를 적어줘야함
+//   getAge: (age: number) => void;
+// }
+// //  never return type이 있을 수가 없음
+// function infinite(): never {
+//   while (true) {
+//     // 무한굴레일때 리턴값이 존재할 수 없음 === for(;;)
+//   }
+// }
+
+// function throwError(): never {
+//   throw new Error("항상 에러를 던집니다");
+// }
+// // type AorB = { a: number } | { b: number }; // |(또는) 유니온 타입은 a도 올수 있고 b 도 올수있고 a,b 도 올수 있음
+// type AorB = { a: number; b?: never } | { a?: never; b: number }; //따라서 a,b 둘다 오는 경우를 방지하기위해 never 타입 지정함
+// let c: AorB = {
+//   //   a: 2,
+//   b: 4,
+// };
+
+// ------------ 🔥 문제은행 4강 🔥 ------------------- //
+// ⭐️ 문제 1. 작업의 상태를 나타네는 enum을 작성하고, 상태에 따라 다른 메세지를 반환하는 함수를 작성하세요.
+// 작업의 상태는 다음과 같습니다:
+// Pending: 대기 중
+// InProgress: 진행 중
+// Completed: 완료됨
+// 상태에 따라 다음 메시지를 반환하세요:
+// Pending: "작업이 대기 중입니다."
+// InProgress: "작업이 진행 중입니다."
+// Completed: "작업이 완료되었습니다."
+
+// 작업 상태를 나타내는 enum을 작성하세요.
+enum TaskStatus {
+  Pending = "대기 중",
+  InProgress = "진행 중",
+  Completed = "완료됨",
+}
+
+function getStatusMessage(status: TaskStatus): string {
+  switch (status) {
+    case TaskStatus.Pending:
+      return "작업이 대기 중입니다.";
+    case TaskStatus.InProgress:
+      return "작업이 진행 중입니다.";
+    case TaskStatus.Completed:
+      return "작업이 완료되었습니다.";
+    default:
+      return "알 수 없는 상태입니다.";
+  }
+}
+
+// 테스트 코드
+console.log(getStatusMessage(TaskStatus.Pending)); // "작업이 대기 중입니다."
+console.log(getStatusMessage(TaskStatus.InProgress)); // "작업이 진행 중입니다."
+console.log(getStatusMessage(TaskStatus.Completed)); // "작업이 완료되었습니다."
+
+// ⭐️ 문제 2. 아래 조건에 따라 함수를 작성하세요.
+// 1. 작업 상태를 나타내는 enum: Pending:작업대기중 | InProgress:작업진행중 | Completed:작업완료 | Failed:작업실패
+// 2. 함수의 요구사항:
+// 함수는 작업상태와 입력값(unknown)을 받습니다.
+// input은 문자열이어야 합니다.
+// Pending: 문자열을 모두 대문자로 변환.
+// InProgress: 문자열을 소문자로 변환.
+// Completed: 문자열 앞에 "완료: "를 추가.
+// Failed: 에러를 발생시킵니다.
+// 작업 상태가 Failed면 에러를 발생시켜야 합니다.
+// 최종 결과로 가공된 문자열 배열을 반환합니다.
+
+// 작업 상태를 나타내는 enum 작성
+enum TaskStatus2 {
+  Pending = "작업 대기 중",
+  InProgress = "작업 진행 중",
+  Completed = "작업 완료",
+  Failed = "작업 실패",
+}
+
+function processTask(status: TaskStatus2, input: unknown): string {
+  if (typeof input !== "string") {
+    throw new Error("입력값은 문자열이어야 합니다.");
+  }
+
+  switch (status) {
+    case TaskStatus2.Pending:
+      return input.toUpperCase();
+    case TaskStatus2.InProgress:
+      return input.toLowerCase();
+    case TaskStatus2.Completed:
+      return `완료: ${input}`;
+    case TaskStatus2.Failed:
+      throw new Error("작업이 실패했습니다.");
+    default:
+      throw new Error("알 수 없는 상태입니다.");
+  }
+}
+// 테스트 코드
+function TestCode(label: string, fn: () => void) {
+  try {
+    console.log(`[${label}]`);
+    fn();
+  } catch (err) {
+    console.error("에러:", (err as Error).message);
+  }
+}
+
+TestCode("1.Pending test", () =>
+  console.log(processTask(TaskStatus2.Pending, "task1"))
+);
+TestCode("2.InProgress test", () =>
+  console.log(processTask(TaskStatus2.InProgress, "TaskA"))
+);
+TestCode("3.Completed test", () =>
+  console.log(processTask(TaskStatus2.Completed, "Report1"))
+);
+TestCode("4.Failed test", () =>
+  console.log(processTask(TaskStatus2.Failed, "TaskX"))
+);
+TestCode("5.Type mismatch test", () =>
+  console.log(processTask(TaskStatus2.Pending, 42 as any))
 );
 
-// ⭐️ 문제 3. 두 숫자를 더하는 함수를 작성하고, 함수의 매개변수와 변환값에 타입을 지정하세요
-function addNumber(a: number, b: number): number {
-  return a + b;
+// ⭐️ 문제 3. 아래 조건에 따라 코드를 작성하세요.
+// 1. 로그 수준을 나타내는 enum을 작성하세요 :Info | Error | Debug
+// 2. 로그함수 타입을 정의하세요. 이 함수는 다음과 같은 특징을 가집니다 : message:로그메세지(문자열) | level:로그 수준(enum 값) | 반환값이 없습니다.(void 타입)
+// 3. 작성한 타입과 enum을 사용해 함수를 구현하세요: 로그수준에 따라 다른 메세지를 출력합니다.
+// Info: 메세지 앞에 [INFO] 출력 | Error: 메세지 앞에 [Error] 출력 | Debug: 메세지 앞에 [DEBUG] 출력
+// 로그 수준을 나타내는 enum 작성
+enum LogLevel {
+  Info = "INFO",
+  Error = "ERROR",
+  Debug = "DEBUG",
 }
 
-console.log(addNumber(5, 3)); // 8
+// 로그 함수 타입을 정의하세요.
+type LogFunction = (message: string, level: LogLevel) => void;
 
-// ⭐️ 문제 4. 주어진 값을 받아 문자열로 변환하는 함수를 작성하세요. 값이 null 또는 undefined라면 "값이 없습니다"를 반환합니다
-
-function stringifyValue(value: string | null | undefined): string {
-  if (value === null || value === undefined) {
-    return "값이 없습니다";
+// 로그 함수 구현
+const logMessage: LogFunction = (message, level) => {
+  switch (level) {
+    case LogLevel.Info:
+      console.log(`[INFO]${message}`);
+      break;
+    case LogLevel.Error:
+      console.log(`[ERROR]${message}`);
+      break;
+    case LogLevel.Debug:
+      console.log(`[DEBUG]${message}`);
+      break;
+    default:
+      throw new Error("알 수 없는 상태입니다.");
   }
-  return value;
+};
+
+// 테스트 코드
+logMessage("시스템이 시작되었습니다.", LogLevel.Info);
+logMessage("네트워크 연결 실패!", LogLevel.Error);
+logMessage("디버깅 모드 활성화", LogLevel.Debug);
+
+// ⭐️ 문제 4. 아래 조건을 만족하는 함수를 작성하세요.
+// 1. 두개의 함수(processAny와 processUnknown)를 작성합니다:
+// processAny: 매개변수로 any 타입을 받습니다. 입력값의 타입에 관게없이 문자열로 변환하여 반환합니다.
+// processUnknown: 매개변수로 unknown 타입을 받습니다. 입력값이 문자열이면 대문자로 변환하여 반환하고, 숫자라면 10을 곱해 반환합니다. 다른타입의 경우 에러를 발생시킵니다.
+
+function processAny(input: any): string {
+  return input;
 }
 
-console.log(stringifyValue("Hello")); // "Hello"
-console.log(stringifyValue(null)); // "값이 없습니다"
-console.log(stringifyValue(undefined)); // "값이 없습니다"
-
-// ⭐️ 문제 5. 아래 함수는 두 값을 비교하여 결과를 반환합니다. 느슨한 동등성(==)과 엄격 동등성(===)의 차이를 이해하고, 함수의 동작결과를 예측하세요
-
-function compareValues(a: unknown, b: unknown): string {
-  if (a === b) {
-    return "엄격한 동등성";
-  } else if (a == b) {
-    return "느슨한 동등성";
+function processUnknown(input: unknown): string | number {
+  if (typeof input === "string") {
+    return input.toUpperCase();
+  } else if (typeof input === "number") {
+    return input * 10;
   } else {
-    return "동등하지 않음";
+    throw new Error("에러 발생");
   }
 }
 
-// 함수 호출 예시
-console.log(compareValues(5, "5")); // ? 느슨한 동등성
-console.log(compareValues(null, undefined)); // ? 느슨한 동등성
-// ===이 false인 이유는 타입이 다르기때문
-// null의 타입: object (특이하게 설계됨)
-// undefined의 타입: undefined
-console.log(compareValues(false, 0)); // ? 동등하지 않음 x 느슨한 동등성
-// ** 자바스크립트의 자동 형변환 : 다른 타입의 값들을 비교하거나 연산할때, 자동으로 타입을 바꿔서 계산해주는 것
-// (true->1 false->0 이외에도 문자열->숫자 null-> 0(null+1 //1) undefined->NaN(undefined+1 //NaN))
-// ** 특이한 비교 **
-// false == "0"       // true (false → 0, "0" → 0)
-// 0 == ""            // true ("" → 0)
-// null == 0          // false (null은 0으로 안 바뀜)
-// undefined == 0     // false
-// null == undefined  // true (예외적으로 둘은 같다고 판단) **null 과 undefined 는 서로만 같고 다른값(문자열 숫자 등)과는 다르다고 취급됨
+// 테스트 코드
+console.log(processAny("hello")); // 기대 출력: "hello"
+console.log(processAny(42)); // 기대 출력: "42"
+console.log(processAny(true)); // 기대 출력: "true"
 
-// ** Truthy / Falsy란?
-// 자바스크립트에서는 어떤 값을 조건문(if)이나 비교에 쓸 때
-// 자동으로 Boolean(true/false)로 바꾸는 경우가 많음
-// 그때 자바스크립트는: 어떤 값은 true처럼 취급(Truthy), 어떤 값은 false처럼 취급(Falsy)
-// Falsy 값 (암기해야함)
-// false | 0 | -0 | NaN | null | undefined | '' (빈 문자열)
-// 예시
-// if (0) {
-//   console.log("실행됨");
-// } else {
-//   console.log("실행 안됨"); // 이게 실행됨
-// }
-// Truthy 값 (빈 배열 [] | 빈 객체 {} | 문자열 "0")
-// 중요하는 이유는 ==(느슨한 비교)를 하는 경우 예상밖의 결과가 나오기 때문
-// 예시
-// false == 0      // true
-// false == ''     // true
-// 0 == ''         // true
-// false == []     // true  (빈 배열은 Truthy지만 숫자 변환 시 0이 되기 때문)
-// 비교 요약
-// false == 0	  true	  false → 0
-// false == ''	true	  false → 0, '' → 0
-// 0 == ''	    true	  '' → 0
-// false == []	true	  [] → '' → 0
-// false == {}	false	  {} → NaN
-// 따라서 조건문에서는 항상 엄격한 비교 (===)을 사용하고 if(value) 전에 꼭 이 값이 Truthy 인지 Falsy 인지 알아야한다.
-
-console.log(compareValues(NaN, NaN)); // ? 엄격한 동등성 x 동등하지 않음
-// NaN == NaN // false
-// NaN === NaN // false
-// 숫자 타입이지만 숫자가 아니라는 뜻을 가진 NaN는 NaN과 비교하면 false 값을 반환하고 데이터타입까지 비교하는 일치연산자 === 로 비교해도 똑같이 false이다
-// NaN은 어떤 값과도 같지 않다. 자기자신도 포함해서! 이유는 : NaN은 오류나 잘못된 계산 결과를 나타내기 때문에, **이 값은 비교대상조차 될수 없다**라는 뜻으로 설계되었기 때문
-// 결론 NaN은 "숫자타입이지만 이상한 숫자"라서, 자기자신과도 같지 않다.
-console.log(compareValues(42, 42)); // ? 엄격한 동등성
-
-// ⭐️ 문제 6. 주어진 값이 원시 타입인지 아닌지 확인하는 함수를 작성하세요.
-function isPrimitive(value: unknown): boolean {
-  // return (
-  //   value === null ||
-  //   typeof value === "string" ||
-  //   typeof value === "number" ||
-  //   typeof value === "boolean" ||
-  //   typeof value === "undefined" ||
-  //   typeof value === "symbol" ||
-  //   typeof value === "bigint"
-  // );
-  return value === null || value !== Object(value);
-}
-// value !== Object(value)
-// 원시타입은 Object(value)를 하면 새로운 객체가 생성된다. 따라서 !== 조건에 부합한다.
-// 반면에 객체나 함수는 Object(value)를 해도 그 자신 그대로 나온다. !== 조건에 걸리지 않음
-// 따라서 원시타입의 경우에는 value !== Object(value) 결과값이 true
-// 객채나 배열 함수는 value !== Object(value) 결과값이 false
-// !== 조건에 걸리지 않기 때문에 Object(value)를 사용하여 원시타입 구별이 가능하다.
-
-// 함수 호출 예시
-console.log(isPrimitive("Hello")); // true
-console.log(isPrimitive(42)); // true
-console.log(isPrimitive(false)); // true
-console.log(isPrimitive(null)); // true
-console.log(isPrimitive(undefined)); // true
-console.log(isPrimitive({})); // false
-console.log(isPrimitive([])); // false
+console.log(processUnknown("hello")); // 기대 출력: "HELLO"
+console.log(processUnknown(42)); // 기대 출력: 420
+console.log(processUnknown(true)); // 에러 발생
