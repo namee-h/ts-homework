@@ -174,14 +174,17 @@ type Circle = { radius: number };
 
 // 사용자 정의 타입 가드
 function isRectangle(shape: unknown): shape is Rectangle {
-  return (shape as Rectangle).height !== undefined;
+  return (
+    (shape as Rectangle).height !== undefined &&
+    (shape as Rectangle).width !== undefined
+  );
 }
 
 function calculateArea(shape: Rectangle | Circle): number {
   if (isRectangle(shape)) {
     return shape.height * shape.width;
   } else {
-    return Math.PI * shape.radius * shape.radius;
+    return Math.PI * shape.radius ** 2;
   }
 }
 
