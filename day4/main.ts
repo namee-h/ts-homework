@@ -118,13 +118,13 @@
 // pair.display();
 
 // 강의 11 리터럴 타입
-let direction: "left" | "right";
-direction = "left";
-// direction = "up"
+// let direction: "left" | "right";
+// direction = "left";
+// // direction = "up"
 
-type Direction = "left" | "right";
-type Margin = `margin-${Direction}`;
+// type Direction = "left" | "right";
+// type Margin = `margin-${Direction}`;
 
-let margin: Margin;
-margin = "margin-left";
+// let margin: Margin;
+// margin = "margin-left";
 // margin = "margin-up"
