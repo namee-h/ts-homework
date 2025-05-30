@@ -14,7 +14,7 @@ console.log(getFirstElement([])); // undefined
 
 // 매개변수, 리턴타입 정의 필요
 function isNumberArray<T>(array: T[]): boolean {
-  return array.every((item) => typeof array === "number");
+  return array.every((item) => typeof item === "number");
 }
 
 // 테스트 코드
